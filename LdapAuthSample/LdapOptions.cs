@@ -1,32 +1,30 @@
-using Microsoft.Extensions.Options;
-
 namespace LdapAuthSample;
 
 /// <summary>
-/// LDAPÚ‘±İ’è‚ÌŠî–{ƒIƒvƒVƒ‡ƒ“‚ğ•\‚µ‚Ü‚·B
+/// LDAPæ¥ç¶šè¨­å®šã®åŸºæœ¬ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’è¡¨ã—ã¾ã™ã€‚
 /// </summary>
 public class LdapOptions
 {
     /// <summary>
-    /// LDAPƒT[ƒo[‚ÌƒAƒhƒŒƒXB
+    /// LDAPã‚µãƒ¼ãƒãƒ¼ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã€‚
     /// </summary>
     public string Server { get; set; } = string.Empty;
     /// <summary>
-    /// ŒŸõ‚Ìƒx[ƒXDNB
+    /// æ¤œç´¢ã®ãƒ™ãƒ¼ã‚¹DNã€‚
     /// </summary>
     public string BaseDn { get; set; } = string.Empty;
 
     /// <summary>
-    /// ƒoƒCƒ“ƒhƒ†[ƒU[–¼B
+    /// ãƒã‚¤ãƒ³ãƒ‰ãƒ¦ãƒ¼ã‚¶ãƒ¼åã€‚
     /// </summary>
     public string BindUser { get; set; } = string.Empty;
     /// <summary>
-    /// ƒoƒCƒ“ƒhƒ†[ƒU[‚ÌƒpƒXƒ[ƒhB
+    /// ãƒã‚¤ãƒ³ãƒ‰ãƒ¦ãƒ¼ã‚¶ãƒ¼ã®ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã€‚
     /// </summary>
     public string BindPassword { get; set; } = string.Empty;
 
     /// <summary>
-    /// ƒƒOƒCƒ“ID‘®«–¼B
+    /// ãƒ­ã‚°ã‚¤ãƒ³IDå±æ€§åã€‚
     /// </summary>
     public string LoginIdAttribute { get; set; } = "sAMAccountName";
 }

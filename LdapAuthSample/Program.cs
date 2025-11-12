@@ -10,8 +10,8 @@ builder.Services.Configure<LdapOptions>(builder.Configuration.GetSection(nameof(
 
 builder.Services.AddLogging(logging =>
 {
-	logging.AddZLoggerConsole();
-	// logging.ClearProviders(); は .NET 8 では不要
+    logging.AddZLoggerConsole();
+    // logging.ClearProviders(); は .NET 8 では不要
 });
 
 builder.Services.AddSingleton<LdapAuthServiceSimple>();

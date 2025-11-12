@@ -1,21 +1,21 @@
-using ZLogger;
 using Microsoft.Extensions.Options;
 using System.DirectoryServices.Protocols;
 using System.Net;
+using ZLogger;
 
 namespace LdapAuthSample;
 
 /// <summary>
-/// �g���I�v�V�����𗘗p����LDAP�F�؃T�[�r�X�B
+/// グローバルオプションを利用したLDAP認証サービス。
 /// </summary>
 public class LdapAuthServiceAdvanced
 {
     private readonly LdapOptions _options;
     private readonly Microsoft.Extensions.Logging.ILogger _logger;
     /// <summary>
-    /// LdapAuthServiceAdvanced �̐V�����C���X�^���X�����������܂��B
+    /// LdapAuthServiceAdvanced の新しいインスタンスを初期化します。
     /// </summary>
-    /// <param name="options">�g��LDAP�ڑ��I�v�V����</param>
+    /// <param name="options">グローバルLDAP接続オプション</param>
     /// <param name="logger">ILogger</param>
     public LdapAuthServiceAdvanced(IOptions<LdapOptions> options, Microsoft.Extensions.Logging.ILogger<LdapAuthServiceAdvanced> logger)
     {
@@ -24,11 +24,11 @@ public class LdapAuthServiceAdvanced
     }
 
     /// <summary>
-    /// �w�肵�����[�U�[ID�ƃp�X���[�h��LDAP�F�؂��s���܂��B
+    /// 指定したユーザーIDとパスワードでLDAP認証を行います。
     /// </summary>
-    /// <param name="userId">���[�U�[ID</param>
-    /// <param name="password">�p�X���[�h</param>
-    /// <returns>�F�ؐ�������true�A���s����false</returns>
+    /// <param name="userId">ユーザーID</param>
+    /// <param name="password">パスワード</param>
+    /// <returns>認証成功時はtrue、失敗時はfalse</returns>
     public bool Authenticate(string userId, string password)
     {
         try

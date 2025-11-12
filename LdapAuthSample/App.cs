@@ -1,5 +1,4 @@
 using ZLogger;
-using LdapAuthSample;
 
 namespace LdapAuthSample;
 
@@ -23,16 +22,16 @@ public class App
         Console.Write("Password: ");
         var password = ReadPassword();
 
-    _logger.ZLogInformation($"入力ID: {userId}");
+        _logger.ZLogInformation($"入力ID: {userId}");
 
-    var result = _ldapAuthService.Authenticate(userId ?? string.Empty, password);
-    _logger.ZLogInformation($"シンプル認証: {(result ? "Success" : "failed")}");
-    Console.WriteLine(result ? "Success" : "failed");
+        var result = _ldapAuthService.Authenticate(userId ?? string.Empty, password);
+        _logger.ZLogInformation($"シンプル認証: {(result ? "Success" : "failed")}");
+        Console.WriteLine(result ? "Success" : "failed");
 
-    result = _ldapAuthServiceAdvanced.Authenticate(userId ?? string.Empty, password);
-    _logger.ZLogInformation($"詳細認証: {(result ? "Success" : "failed")}");
-    Console.WriteLine(result ? "Success" : "failed");
-    return Task.CompletedTask;
+        result = _ldapAuthServiceAdvanced.Authenticate(userId ?? string.Empty, password);
+        _logger.ZLogInformation($"詳細認証: {(result ? "Success" : "failed")}");
+        Console.WriteLine(result ? "Success" : "failed");
+        return Task.CompletedTask;
     }
 
     private static string ReadPassword()
