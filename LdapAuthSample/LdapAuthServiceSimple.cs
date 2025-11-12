@@ -1,38 +1,45 @@
+using ZLogger;
 using Microsoft.Extensions.Options;
 using System.DirectoryServices;
 
 namespace LdapAuthSample;
 
 /// <summary>
-/// ƒVƒ“ƒvƒ‹‚È”FØ•û®ADirectoryEntry‚É‚¨‚Ü‚©‚¹
+/// ï¿½Vï¿½ï¿½ï¿½vï¿½ï¿½ï¿½È”Fï¿½Ø•ï¿½ï¿½ï¿½ï¿½ADirectoryEntryï¿½É‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½
 /// </summary>
 public class LdapAuthServiceSimple
 {
     private readonly LdapOptions _options;
+    private readonly Microsoft.Extensions.Logging.ILogger<LdapAuthServiceSimple> _logger;
     /// <summary>
-    /// LdapAuthServiceSimple ‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ‰Šú‰»‚µ‚Ü‚·B
+    /// LdapAuthServiceSimple ï¿½ÌVï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
     /// </summary>
-    /// <param name="options">LDAPÚ‘±ƒIƒvƒVƒ‡ƒ“</param>
-    public LdapAuthServiceSimple(IOptions<LdapOptions> options) => _options = options.Value;
+    /// <param name="options">LDAPï¿½Ú‘ï¿½ï¿½Iï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½</param>
+    /// <param name="logger">ILogger</param>
+    public LdapAuthServiceSimple(IOptions<LdapOptions> options, Microsoft.Extensions.Logging.ILogger<LdapAuthServiceSimple> logger)
+    {
+        _options = options.Value;
+        _logger = logger;
+    }
 
     /// <summary>
-    /// w’è‚µ‚½ƒ†[ƒU[ID‚ÆƒpƒXƒ[ƒh‚ÅLDAP”FØ‚ğs‚¢‚Ü‚·B
+    /// ï¿½wï¿½è‚µï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½Uï¿½[IDï¿½Æƒpï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½ï¿½LDAPï¿½Fï¿½Ø‚ï¿½ï¿½sï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
     /// </summary>
-    /// <param name="userId">ƒ†[ƒU[ID</param>
-    /// <param name="password">ƒpƒXƒ[ƒh</param>
-    /// <returns>”FØ¬Œ÷‚ÍtrueA¸”s‚Ífalse</returns>
+    /// <param name="userId">ï¿½ï¿½ï¿½[ï¿½Uï¿½[ID</param>
+    /// <param name="password">ï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½h</param>
+    /// <returns>ï¿½Fï¿½Øï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½trueï¿½Aï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½false</returns>
     public bool Authenticate(string userId, string password)
     {
         try
         {
             using var entry = new DirectoryEntry($"LDAP://{_options.Server}", userId, password);
             _  = entry.NativeObject;
-            //—áŠO”­¶‚µ‚È‚¯‚ê‚Î”FØ¬Œ÷
+            //ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½Î”Fï¿½Øï¿½ï¿½ï¿½
             return true;
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            _logger.ZLogError(ex, $"LDAPèªè¨¼å¤±æ•—: {ex.Message}");
             return false;
         }
     }

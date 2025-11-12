@@ -1,3 +1,4 @@
+using ZLogger;
 using Microsoft.Extensions.Options;
 using System.DirectoryServices.Protocols;
 using System.Net;
@@ -5,23 +6,29 @@ using System.Net;
 namespace LdapAuthSample;
 
 /// <summary>
-/// Šg’£ƒIƒvƒVƒ‡ƒ“‚ğ—˜—p‚µ‚½LDAP”FØƒT[ƒrƒXB
+/// ï¿½gï¿½ï¿½ï¿½Iï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ğ—˜—pï¿½ï¿½ï¿½ï¿½LDAPï¿½Fï¿½ØƒTï¿½[ï¿½rï¿½Xï¿½B
 /// </summary>
 public class LdapAuthServiceAdvanced
 {
     private readonly LdapOptions _options;
+    private readonly Microsoft.Extensions.Logging.ILogger _logger;
     /// <summary>
-    /// LdapAuthServiceAdvanced ‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ‰Šú‰»‚µ‚Ü‚·B
+    /// LdapAuthServiceAdvanced ï¿½ÌVï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
     /// </summary>
-    /// <param name="options">Šg’£LDAPÚ‘±ƒIƒvƒVƒ‡ƒ“</param>
-    public LdapAuthServiceAdvanced(IOptions<LdapOptions> options) => _options = options.Value;
+    /// <param name="options">ï¿½gï¿½ï¿½LDAPï¿½Ú‘ï¿½ï¿½Iï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½</param>
+    /// <param name="logger">ILogger</param>
+    public LdapAuthServiceAdvanced(IOptions<LdapOptions> options, Microsoft.Extensions.Logging.ILogger<LdapAuthServiceAdvanced> logger)
+    {
+        _options = options.Value;
+        _logger = logger;
+    }
 
     /// <summary>
-    /// w’è‚µ‚½ƒ†[ƒU[ID‚ÆƒpƒXƒ[ƒh‚ÅLDAP”FØ‚ğs‚¢‚Ü‚·B
+    /// ï¿½wï¿½è‚µï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½Uï¿½[IDï¿½Æƒpï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½ï¿½LDAPï¿½Fï¿½Ø‚ï¿½ï¿½sï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
     /// </summary>
-    /// <param name="userId">ƒ†[ƒU[ID</param>
-    /// <param name="password">ƒpƒXƒ[ƒh</param>
-    /// <returns>”FØ¬Œ÷‚ÍtrueA¸”s‚Ífalse</returns>
+    /// <param name="userId">ï¿½ï¿½ï¿½[ï¿½Uï¿½[ID</param>
+    /// <param name="password">ï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½h</param>
+    /// <returns>ï¿½Fï¿½Øï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½trueï¿½Aï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½false</returns>
     public bool Authenticate(string userId, string password)
     {
         try
@@ -52,7 +59,7 @@ public class LdapAuthServiceAdvanced
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            _logger.ZLogError(ex, $"LDAPè©³ç´°èªè¨¼å¤±æ•—: {ex.Message}");
             return false;
         }
     }

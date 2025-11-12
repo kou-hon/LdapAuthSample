@@ -1,15 +1,19 @@
+using ZLogger;
 using LdapAuthSample;
 
 namespace LdapAuthSample;
+
 
 public class App
 {
     private readonly LdapAuthServiceSimple _ldapAuthService;
     private readonly LdapAuthServiceAdvanced _ldapAuthServiceAdvanced;
-    public App(LdapAuthServiceSimple ldapAuthService, LdapAuthServiceAdvanced ldapAuthServiceAdvanced)
+    private readonly Microsoft.Extensions.Logging.ILogger _logger;
+    public App(LdapAuthServiceSimple ldapAuthService, LdapAuthServiceAdvanced ldapAuthServiceAdvanced, Microsoft.Extensions.Logging.ILogger<App> logger)
     {
         _ldapAuthService = ldapAuthService;
         _ldapAuthServiceAdvanced = ldapAuthServiceAdvanced;
+        _logger = logger;
     }
 
     public Task RunAsync()
@@ -19,12 +23,16 @@ public class App
         Console.Write("Password: ");
         var password = ReadPassword();
 
-        var result = _ldapAuthService.Authenticate(userId ?? string.Empty, password);
-        Console.WriteLine(result ? "Success" : "failed");
+    _logger.ZLogInformation($"入力ID: {userId}");
 
-        result = _ldapAuthServiceAdvanced.Authenticate(userId ?? string.Empty, password);
-        Console.WriteLine(result ? "Success" : "failed");
-        return Task.CompletedTask;
+    var result = _ldapAuthService.Authenticate(userId ?? string.Empty, password);
+    _logger.ZLogInformation($"シンプル認証: {(result ? "Success" : "failed")}");
+    Console.WriteLine(result ? "Success" : "failed");
+
+    result = _ldapAuthServiceAdvanced.Authenticate(userId ?? string.Empty, password);
+    _logger.ZLogInformation($"詳細認証: {(result ? "Success" : "failed")}");
+    Console.WriteLine(result ? "Success" : "failed");
+    return Task.CompletedTask;
     }
 
     private static string ReadPassword()
