@@ -37,7 +37,9 @@ public class LdapAuthServiceAdvanced
             using (var searchConnection = new LdapConnection(_options.Server))
             {
                 searchConnection.SessionOptions.ProtocolVersion = 3;
+                searchConnection.SessionOptions.StartTransportLayerSecurity(null);
                 searchConnection.AuthType = AuthType.Basic;
+
                 searchConnection.Bind(new NetworkCredential(_options.BindUser, _options.BindPassword));
 
                 var searchRequest = new SearchRequest(
@@ -52,6 +54,7 @@ public class LdapAuthServiceAdvanced
             }
             using var connection = new LdapConnection(_options.Server);
             connection.SessionOptions.ProtocolVersion = 3;
+            connection.SessionOptions.StartTransportLayerSecurity(null);
             connection.AuthType = AuthType.Basic;
             var credential = new NetworkCredential(userDn, password);
             connection.Bind(credential);
